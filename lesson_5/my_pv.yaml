@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mypv
+  name: mypv-re
 spec:
   capacity:
     storage: 10Gi
@@ -9,4 +9,4 @@ spec:
     - ReadWriteOnce
   storageClassName: local
   hostPath:
-    path: /tmp/postgres/date
+    path: /tmp/redmine/date

@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress-re
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    name: my-ingress-re
+spec:
+  rules:
+  - host: testredmine
+    http:
+      paths:
+      - pathType: 
+        path: "/testredmine"
+        backend:
+          service:
+            name: my-service-re
+            port: 
+              number: 3000

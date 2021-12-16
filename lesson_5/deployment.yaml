@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: postgres
-  name: postgres
-  namespace: postgres
+    app: redmine
+  name: redmine
+  namespace: redmine
 spec:
   replicas: 1
   strategy:
@@ -14,36 +14,39 @@ spec:
       maxUnavailable: 25%
   selector:
     matchLabels:
-      app: postgres
+      app: redmine
   template:
     metadata:
       labels:
-        app: postgres
+        app: redmine
     spec:
       hostNetwork: true
-      serviceAccountName: postgres
+      serviceAccountName: redmine
       containers:
-      - image: postgres:10.13
-        name: postgres
+      - image: redmine:4.1.1
+        name: redmine
         ports:
-        - containerPort: 5432
+        - containerPort: 3000
         env:
-          - name: POSTGRES_DB
-            value: testdatabase
-          - name: PGDATA
-            value: /var/lib/postgresql/data/pgdata
-          - name: POSTGRES_USER
+          - name: REDMINE_DB_POSTGRES
+            value: database
+          - name: REDMINE_DB_USERNAME
             valueFrom:
               secretKeyRef:
-                name: my-secret
-                key: POSTGRES_USER
-          - name: POSTGRES_PASSWORD
+                name: my-secret-re
+                key: REDMINE_DB_USERNAME
+          - name: REDMINE_SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:
-                name: my-secret
-                key: POSTGRES_PASSWORD
+                name: my-secret-re
+                key: REDMINE_SECRET_KEY_BASE
+          - name: REDMINE_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secret-re
+                key: REDMINE_DB_PASSWORD
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: mypvc
+            claimName: mypvc-re
 
