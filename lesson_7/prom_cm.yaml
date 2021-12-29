@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: $APP_INSTANCE_NAME-prometheus-config
+  labels:
+    app.kubernetes.io/name: $APP_INSTANCE_NAME
+    app.kubernetes.io/component: prometheus
+data:
+  prometheus.yml: "\"groups\":
+    \n  \"scrape_interval\": \"30s\"
+    \n  \"scrape_configs\":
+    \n    - \"job_name\": \"prometheus\"
+    \n  \"static_configs\":
+    \n    - \"targets\": [\"localhost:9090\"]
+    \n    - \"job_name\": \"kubernetes-nodes\"
+    \n  \"kubernetes_sd_configs\":
+    \n    - \"role\": \"node\"
+    \n  \"relabel_configs\":
+    \n    - \"source_labels\": [\"__address__\"]
+    \n  \"regex\": \"(.+):(.+)\"
+    \n  \"target_label\": \"__address__\"
+    \n  \"replacement\": \"${1}:9101\""
