@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: geekbrains
+spec:
+  rules:
+    - host: __HOST__
+      http:
+        paths:
+          - backend:
+              service: 
+                name: geekbrains
+                port: 
+                  number: 8000
+            path: /users
+            pathType: Prefix
